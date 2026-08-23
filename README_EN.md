@@ -17,6 +17,55 @@
 
 ---
 
+## 📸 UI Showcase
+
+<div align="center">
+
+### 1. Hardware Diagnostic Workbench
+> Live 16-key matrix hit visualizer · X6 real-time acoustic VU meter (dBFS peak meter) · Low-level device isolation diagnostic panel
+<img src="assets/screenshots/workbench.png" width="850" alt="Hardware Workbench">
+
+<br><br>
+
+### 2. Interactive Keymap Canvas (Front & Backside Dual Layout)
+> Full visual binding for front multimedia controls and backside 47-key QWERTY keyboard · 1-Click Profile Presets (Standard/3D Viewer/Media/Presentation)
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><b>Front Controls Keymap</b></td>
+    <td width="50%" align="center"><b>Backside QWERTY Keymap</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/mapping_front.png" alt="Front Mapping"></td>
+    <td><img src="assets/screenshots/mapping_back.png" alt="Backside Mapping"></td>
+  </tr>
+</table>
+
+<br>
+
+### 3. Audio Routing, Transcripts & Preferences
+<table align="center">
+  <tr>
+    <td width="50%" align="center"><b>Audio Device & Virtual Mixing Router</b></td>
+    <td width="50%" align="center"><b>Voice Transcription History Manager</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/audio_routing.png" alt="Audio Routing"></td>
+    <td><img src="assets/screenshots/transcripts.png" alt="Transcripts"></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center"><b>Preferences & Global Settings</b></td>
+    <td width="50%" align="center"><b>Light Theme UI Workbench</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/settings.png" alt="Settings"></td>
+    <td><img src="assets/screenshots/workbench_light.png" alt="Light Workbench"></td>
+  </tr>
+</table>
+
+</div>
+
+---
+
 ## 🌟 Key Features
 
 - 🎙️ **Native BLE Voice Streaming (Google ATVV Protocol)**
