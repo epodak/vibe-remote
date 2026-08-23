@@ -29,12 +29,11 @@ ArchitecturesInstallIn64BitMode=x64compatible
 UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Languages]
-Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
-Name: "autostart"; Description: "开机自动启动 (Start automatically on Windows boot)"; GroupDescription: "启动选项 (Startup Options):"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon} (创建桌面快捷方式)"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
+Name: "autostart"; Description: "开机自动启动 (Start automatically on Windows boot)"; GroupDescription: "附加选项 (Options):"; Flags: unchecked
 
 [Files]
 Source: "dist\vibe-remote\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -46,4 +45,4 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: autostart
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Description: "立即运行 {#MyAppName} (Launch {#MyAppName} now)"; Flags: nowait postinstall skipifsilent
