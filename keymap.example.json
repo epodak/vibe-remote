@@ -1,0 +1,13 @@
+{
+  "active": "custom",
+  "profile_name": "自定义",
+  "maps": {
+    "ok": "left_hold",
+    "menu": "right_toggle",
+    "del": "right_toggle",
+    "back": "block",
+    "esc": "block",
+    "pg_down": "wheel_down",
+    "pg_up": "wheel_up"
+  }
+}

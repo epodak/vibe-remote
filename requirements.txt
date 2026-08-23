@@ -1,0 +1,15 @@
+# GUI Framework
+PyQt6>=6.5.0
+
+# Audio & Signal Processing
+numpy>=1.24.0
+
+# Logging & Utilities
+loguru>=0.7.0
+
+# Windows BLE & WinRT Runtime (Windows 10/11)
+winrt-runtime>=2.0.0
+winrt-Windows.Foundation>=2.0.0
+winrt-Windows.Storage.Streams>=2.0.0
+winrt-Windows.Devices.Bluetooth>=2.0.0
+winrt-Windows.Devices.Enumeration>=2.0.0
