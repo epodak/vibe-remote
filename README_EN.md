@@ -67,15 +67,16 @@
 
 ---
 
-## 📥 Pre-built Binary (Zero Setup)
+## 📥 Download & Installation (Zero Setup)
 
-If you prefer not to set up a Python environment, download the standalone portable bundle automatically compiled by GitHub Actions:
+No Python configuration required. Grab the pre-built Windows releases directly from GitHub:
 
-👉 **[Download Latest Windows Release (.zip)](https://github.com/epodak/vibe-remote/releases)**
+👉 **[Go to GitHub Releases](https://github.com/epodak/vibe-remote/releases)**
 
-1. Download `vibe-remote-windows-x64.zip`
-2. Extract to any directory
-3. Double-click `vibe-remote.exe` to run immediately
+| Package Type | File | Details |
+| :--- | :--- | :--- |
+| 🌟 **Setup Wizard (Recommended)** | `vibe-remote-Setup-x64.exe` | **Standard Windows Installer**: Double-click setup wizard, auto-creates **Desktop shortcut**, **Start Menu items**, optional **Auto-start on boot**, clean Control Panel uninstaller |
+| 💼 **Portable Bundle** | `vibe-remote-windows-x64-portable.zip` | **Zero Installation**: Extract to any folder, run `vibe-remote.exe` directly |
 
 ---
 

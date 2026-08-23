@@ -1,4 +1,4 @@
-name: Build and Release Windows Executable
+name: Build and Release Windows Executable & Installer
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-windows:
-    name: Build vibe-remote (Windows x64)
+    name: Build vibe-remote (Windows x64 Setup & Portable)
     runs-on: windows-latest
 
     steps:
@@ -36,17 +36,31 @@ jobs:
         run: |
           pyinstaller vibe-remote.spec
 
-      - name: Compress Build Artifacts
+      - name: Package Inno Setup Installer (.exe)
         shell: pwsh
         run: |
-          Compress-Archive -Path dist/vibe-remote/* -DestinationPath dist/vibe-remote-windows-x64.zip
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup --no-progress
+            $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          }
+          Write-Host "Compiling Windows Installer with: $iscc"
+          & $iscc installer.iss
+          Get-ChildItem -Path dist\installer\
+
+      - name: Compress Portable Bundle (.zip)
+        shell: pwsh
+        run: |
+          Compress-Archive -Path dist/vibe-remote/* -DestinationPath dist/vibe-remote-windows-x64-portable.zip
           Get-ChildItem -Path dist/
 
-      - name: Upload Build Artifact to Actions
+      - name: Upload Build Artifacts to Actions
         uses: actions/upload-artifact@v4
         with:
-          name: vibe-remote-windows-x64
-          path: dist/vibe-remote-windows-x64.zip
+          name: vibe-remote-windows-x64-binaries
+          path: |
+            dist/installer/vibe-remote-Setup-x64.exe
+            dist/vibe-remote-windows-x64-portable.zip
           retention-days: 14
 
       - name: Create / Update Continuous Latest Release
@@ -56,20 +70,24 @@ jobs:
           tag_name: latest
           name: "vibe-remote Latest Build (Continuous)"
           body: |
-            ## 🚀 vibe-remote 自动持续集成构建产物 (Continuous Build)
+            ## 🚀 vibe-remote 自动构建最新发布 (Continuous Build)
             
-            这是由 GitHub Actions 自动编译生成的最新 Windows 运行包。
+            欢迎使用 vibe-remote Windows 客户端！请根据需求选择下载：
             
-            ### 📦 下载与运行
-            1. 下载下方的 `vibe-remote-windows-x64.zip`。
-            2. 解压到任意文件夹。
-            3. 双击运行 `vibe-remote.exe` 即可启动。
+            ### 📦 下载选项
+            - 🌟 **[推荐] 安装向导版**：`vibe-remote-Setup-x64.exe`
+              - 双击自动安装，一键创建**桌面图标**、**开始菜单项**与**开机自启动**选项，支持 Windows 控制面板干净卸载。
+            - 💼 **绿色免安装便携版**：`vibe-remote-windows-x64-portable.zip`
+              - 解压即用，适合放在 U 盘或临时测试。
             
-            *构建时间: ${{ github.event.head_commit.timestamp }}*
+            ---
+            *构建时间: ${{ github.event.head_commit.timestamp }}*  
             *关联提交: ${{ github.sha }}*
           draft: false
           prerelease: true
-          files: dist/vibe-remote-windows-x64.zip
+          files: |
+            dist/installer/vibe-remote-Setup-x64.exe
+            dist/vibe-remote-windows-x64-portable.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -77,7 +95,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/vibe-remote-windows-x64.zip
+          files: |
+            dist/installer/vibe-remote-Setup-x64.exe
+            dist/vibe-remote-windows-x64-portable.zip
           generate_release_notes: true
           draft: false
           prerelease: false

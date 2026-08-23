@@ -66,15 +66,16 @@
 
 ---
 
-## 📥 开箱即用免安装版 (Pre-built Binary)
+## 📥 下载与安装 (Download & Installation)
 
-如果你不想配置 Python 环境，可以直接在 GitHub 下载由 GitHub Actions 自动云编译打包的最新绿色运行包：
+无需配置 Python 环境，直接前往 Releases 页面获取编译好的 Windows 版本：
 
-👉 **[点击前往 Releases 下载最新 Windows 版本 (.zip)](https://github.com/epodak/vibe-remote/releases)**
+👉 **[前往 GitHub Releases 下载最新版本](https://github.com/epodak/vibe-remote/releases)**
 
-1. 下载 `vibe-remote-windows-x64.zip`
-2. 解压到任意文件夹
-3. 双击 `vibe-remote.exe` 即可直接启动
+| 版本类型 | 文件名 | 适用人群 / 特性 |
+| :--- | :--- | :--- |
+| 🌟 **标准安装向导 (推荐)** | `vibe-remote-Setup-x64.exe` | **普通用户首选**：双击一键安装，自动创建**桌面快捷方式**、**开始菜单**，可选**开机自启动**，支持 Windows 设置面板规范卸载 |
+| 💼 **绿色免安装版** | `vibe-remote-windows-x64-portable.zip` | **便携/极客测试**：解压到任意目录，双击 `vibe-remote.exe` 直接运行，零系统残留 |
 
 ---
 
