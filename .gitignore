@@ -22,7 +22,7 @@ assets/preview/
 # Build & Dist
 build/
 dist/
-*.spec
+!vibe-remote.spec
 
 # IDE & OS files
 .vscode/

@@ -67,6 +67,18 @@
 
 ---
 
+## 📥 Pre-built Binary (Zero Setup)
+
+If you prefer not to set up a Python environment, download the standalone portable bundle automatically compiled by GitHub Actions:
+
+👉 **[Download Latest Windows Release (.zip)](https://github.com/epodak/vibe-remote/releases)**
+
+1. Download `vibe-remote-windows-x64.zip`
+2. Extract to any directory
+3. Double-click `vibe-remote.exe` to run immediately
+
+---
+
 ## 📦 Requirements
 
 - **Operating System**: Windows 10 (1809+) or Windows 11

@@ -66,6 +66,18 @@
 
 ---
 
+## 📥 开箱即用免安装版 (Pre-built Binary)
+
+如果你不想配置 Python 环境，可以直接在 GitHub 下载由 GitHub Actions 自动云编译打包的最新绿色运行包：
+
+👉 **[点击前往 Releases 下载最新 Windows 版本 (.zip)](https://github.com/epodak/vibe-remote/releases)**
+
+1. 下载 `vibe-remote-windows-x64.zip`
+2. 解压到任意文件夹
+3. 双击 `vibe-remote.exe` 即可直接启动
+
+---
+
 ## 📦 环境要求 (Requirements)
 
 - **操作系统**：Windows 10 (1809 及以上) / Windows 11
