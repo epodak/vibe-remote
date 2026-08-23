@@ -21,46 +21,33 @@
 
 <div align="center">
 
-### 1. 全能硬件检测工作台 (Hardware Workbench)
-> 实时按键打卡矩阵 (16键物理按下即时点亮) · X6 声学实时电平表 (dBFS 真实电平) · 底层输入源隔离诊断面板
-<img src="assets/screenshots/workbench.png" width="850" alt="Hardware Workbench">
+### 1. 🎛️ 按键映射配置 (Keymap Canvas)
+> X6 实体遥控器可视化映射 · 预设方案一键切换（标准遥控 / 3D 查看器）· 硬件级输入源隔离防护
+<img src="assets/screenshots/01_keymap.png" width="850" alt="按键映射">
 
 <br><br>
 
-### 2. 可视化按键映射画板 (Keymap Canvas - 正反双面)
-> 正面多功能键与背面 47 键全键盘物理打卡映射 · 预设方案一键切换 (标准/3D查看器/多媒体/演示)
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><b>正面按键映射 (Front Controls)</b></td>
-    <td width="50%" align="center"><b>背面全键盘映射 (Back QWERTY)</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/mapping_front.png" alt="Front Mapping"></td>
-    <td><img src="assets/screenshots/mapping_back.png" alt="Backside Mapping"></td>
-  </tr>
-</table>
+### 2. 🎙️ 硬件与语音链路 (Hardware & Audio Link)
+> BLE ATVV 蓝牙握手 · HID 钩子拦截 · 虚拟声卡扇出与双路增益混音 · 本地语音转写引擎联动
+<img src="assets/screenshots/02_hardware_audio.png" width="850" alt="硬件与语音链路">
 
-<br>
+<br><br>
 
-### 3. 音频路由、转写历史与个性化偏好
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><b>音频设备与虚拟混音路由</b></td>
-    <td width="50%" align="center"><b>语音转写历史与记录回溯</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/audio_routing.png" alt="Audio Routing"></td>
-    <td><img src="assets/screenshots/transcripts.png" alt="Transcripts"></td>
-  </tr>
-  <tr>
-    <td width="50%" align="center"><b>全局交互与偏好设置</b></td>
-    <td width="50%" align="center"><b>亮色主题工作台界面 (Light Theme)</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/settings.png" alt="Settings"></td>
-    <td><img src="assets/screenshots/workbench_light.png" alt="Light Workbench"></td>
-  </tr>
-</table>
+### 3. 🔬 全能检测工作台 (Hardware Diagnostic Workbench)
+> 17 键位物理实时打卡显像仪 · Windows Raw Input 输入源仲裁诊断 · 16kHz ADPCM 声学跳动电平表
+<img src="assets/screenshots/03_workbench.png" width="850" alt="全能检测工作台">
+
+<br><br>
+
+### 4. 💬 语音回眸与转写记录 (Transcripts Archive)
+> 语音转写历史完整存档 · 实时增量加载 · 搜索与 Markdown 导出 · 文本一键复制
+<img src="assets/screenshots/04_transcripts.png" width="850" alt="语音回眸">
+
+<br><br>
+
+### 5. ⚙️ 偏好设置与交互控制 (Settings & Preferences)
+> 语音触发模式（Hold 按住说话 / Click 点击录音）· 文本投递管道选择 · 自动粘贴与剪贴板安全还原
+<img src="assets/screenshots/05_settings.png" width="850" alt="偏好设置">
 
 </div>
 

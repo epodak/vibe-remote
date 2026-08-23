@@ -21,46 +21,33 @@
 
 <div align="center">
 
-### 1. Hardware Diagnostic Workbench
-> Live 16-key matrix hit visualizer · X6 real-time acoustic VU meter (dBFS peak meter) · Low-level device isolation diagnostic panel
-<img src="assets/screenshots/workbench.png" width="850" alt="Hardware Workbench">
+### 1. 🎛️ Interactive Keymap Canvas
+> Visual mapping for X6 physical hardware controls · 1-Click Profile Presets (Standard / 3D Viewer) · Hardware-level Input Isolation Guard
+<img src="assets/screenshots/01_keymap.png" width="850" alt="Keymap Canvas">
 
 <br><br>
 
-### 2. Interactive Keymap Canvas (Front & Backside Dual Layout)
-> Full visual binding for front multimedia controls and backside 47-key QWERTY keyboard · 1-Click Profile Presets (Standard/3D Viewer/Media/Presentation)
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><b>Front Controls Keymap</b></td>
-    <td width="50%" align="center"><b>Backside QWERTY Keymap</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/mapping_front.png" alt="Front Mapping"></td>
-    <td><img src="assets/screenshots/mapping_back.png" alt="Backside Mapping"></td>
-  </tr>
-</table>
+### 2. 🎙️ Hardware & Voice Audio Link
+> BLE ATVV Bluetooth handshake · Low-level HID hook interception · Virtual sound card fanout & dual-gain mixing · Local ASR dictation engine integration
+<img src="assets/screenshots/02_hardware_audio.png" width="850" alt="Hardware & Audio Link">
 
-<br>
+<br><br>
 
-### 3. Audio Routing, Transcripts & Preferences
-<table align="center">
-  <tr>
-    <td width="50%" align="center"><b>Audio Device & Virtual Mixing Router</b></td>
-    <td width="50%" align="center"><b>Voice Transcription History Manager</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/audio_routing.png" alt="Audio Routing"></td>
-    <td><img src="assets/screenshots/transcripts.png" alt="Transcripts"></td>
-  </tr>
-  <tr>
-    <td width="50%" align="center"><b>Preferences & Global Settings</b></td>
-    <td width="50%" align="center"><b>Light Theme UI Workbench</b></td>
-  </tr>
-  <tr>
-    <td><img src="assets/screenshots/settings.png" alt="Settings"></td>
-    <td><img src="assets/screenshots/workbench_light.png" alt="Light Workbench"></td>
-  </tr>
-</table>
+### 3. 🔬 Hardware Diagnostic Workbench
+> 17-Key physical real-time matrix visualizer · Windows Raw Input device arbitration panel · 16kHz ADPCM live acoustic peak meter
+<img src="assets/screenshots/03_workbench.png" width="850" alt="Diagnostic Workbench">
+
+<br><br>
+
+### 4. 💬 Voice Transcription History & Archive
+> Complete voice dictation history archive · Real-time incremental loading · Search & Markdown export · 1-Click text copy
+<img src="assets/screenshots/04_transcripts.png" width="850" alt="Voice Transcripts">
+
+<br><br>
+
+### 5. ⚙️ Preferences & Interaction Settings
+> Voice trigger modes (Hold / Click) · Text delivery pipeline selection · Auto-paste & Clipboard safety restore
+<img src="assets/screenshots/05_settings.png" width="850" alt="Settings & Preferences">
 
 </div>
 
