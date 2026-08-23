@@ -7,16 +7,40 @@ import sys
 
 from loguru import logger
 
-LOG_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "logs"))
-os.makedirs(LOG_DIR, exist_ok=True)
 
-logger.remove()
-logger.add(
-    sys.stderr, level="INFO", colorize=True,
-    format="<green>{time:HH:mm:ss}</green> | <level>{level: <7}</level> | {message}")
-logger.add(
-    os.path.join(LOG_DIR, "vremote_{time:YYYY-MM-DD}.log"), level="DEBUG",
-    rotation="10 MB", retention="7 days", encoding="utf-8", enqueue=True,
-    format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <7} | {name}:{function}:{line} | {message}")
+def _resolve_log_dir() -> str:
+    """自适应获取日志存放目录 (兼顾源码运行与 PyInstaller 打包运行态)。"""
+    if getattr(sys, "frozen", False):
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    return os.path.join(base_dir, "logs")
 
-__all__ = ["logger"]
+
+def setup_logger():
+    """初始化并配置全局 logger。"""
+    log_dir = _resolve_log_dir()
+    os.makedirs(log_dir, exist_ok=True)
+
+    logger.remove()
+
+    # 防御 PyInstaller windowed 模式下 sys.stderr 为 None 导致 loguru 抛 TypeError: Cannot log to objects of type 'NoneType'
+    if sys.stderr is not None:
+        try:
+            logger.add(
+                sys.stderr, level="INFO", colorize=True,
+                format="<green>{time:HH:mm:ss}</green> | <level>{level: <7}</level> | {message}")
+        except Exception:
+            pass
+
+    logger.add(
+        os.path.join(log_dir, "vremote_{time:YYYY-MM-DD}.log"), level="DEBUG",
+        rotation="10 MB", retention="7 days", encoding="utf-8", enqueue=True,
+        format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <7} | {name}:{function}:{line} | {message}")
+    return log_dir
+
+
+LOG_DIR = setup_logger()
+
+__all__ = ["logger", "LOG_DIR", "setup_logger"]
+
