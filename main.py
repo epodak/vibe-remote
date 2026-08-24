@@ -73,20 +73,24 @@ async def async_main():
     await coordinator.start()
 
 def main():
-    _install_benign_race_filter()
-    holder = single_instance.acquire()
-    if holder:
-        logger.error(f"❌ 已有 vRemote 实例在运行 (PID {holder})。"
-                     "同时运行两个实例会互相抢占 X6 蓝牙 (GATT ProtocolError)。"
-                     "请先结束旧实例 (taskkill /F /PID "
-                     f"{holder}) 或删除 .vremote.lock 后重试。")
-        sys.exit(1)
-    try:
-        asyncio.run(async_main())
-    except KeyboardInterrupt:
-        logger.info("\n⏹️ vRemote-Win 已正常退出。")
-    finally:
-        single_instance.release()
+    if "--cli" in sys.argv or "--no-gui" in sys.argv:
+        _install_benign_race_filter()
+        holder = single_instance.acquire()
+        if holder:
+            logger.error(f"❌ 已有 vRemote 实例在运行 (PID {holder})。"
+                         "同时运行两个实例会互相抢占 X6 蓝牙 (GATT ProtocolError)。"
+                         "请先结束旧实例 (taskkill /F /PID "
+                         f"{holder}) 或删除 .vremote.lock 后重试。")
+            sys.exit(1)
+        try:
+            asyncio.run(async_main())
+        except KeyboardInterrupt:
+            logger.info("\n⏹️ vRemote-Win 已正常退出。")
+        finally:
+            single_instance.release()
+    else:
+        from gui import main as gui_main
+        sys.exit(gui_main())
 
 if __name__ == "__main__":
     main()
