@@ -21,6 +21,14 @@ VK_RMENU = 0xA5  # 右 Alt (vokie 激活键)
 CLICK = "click"
 HOLD = "hold"
 
+# 掐头/掐尾时序治理 (2026-08-24, 实测见 _dev_log/2026-08-24_语音会话掐头掐尾时序修复.md)
+# TAIL_PAD_MS: 松开后延迟收尾, 让在途音频排空进虚拟声卡、vokie 听完尾巴再松右Alt/停流
+TAIL_PAD_MS = 450
+# HOLD_REPRESS_GUARD_S: 松开后该窗口内的 HID down 是固件尾脉冲 (实测 +17ms 即到,
+# START_SEARCH 回声走 BLE 且已被既有 1.5s 不应期覆盖)。窗口只需盖住固件尾脉冲,
+# 不能宽到误伤连续口述时人手的快速再按压 —— 取 0.25s。
+HOLD_REPRESS_GUARD_S = 0.25
+
 
 class X6SessionCoordinator:
     """统一会话中枢: 语音键状态机 + 热键注入 + 混音路由 + 录音归档。
@@ -93,6 +101,8 @@ class X6SessionCoordinator:
         self._x6_level_db = -60.0  # GUI 电平表 (dBFS)
         self.loop = None
         self._watchdog_task = None
+        self._tail_timer = None   # 延迟收尾定时器 (_finalize_session)
+        self._tailing = False     # True = 已判停但还在放尾巴, PCM 继续推扇出
 
     def _on_source_mispredict(self):
         """设备源门控猜错的兜底: 复位映射引擎持有的鼠标按住/锁定状态。"""
@@ -205,6 +215,11 @@ class X6SessionCoordinator:
                 self._start_voice_session(f"按下 → 开始录音 [源:{source}]")
         else:  # HOLD
             if not self.is_session_active:
+                # 幽灵会话抑制: 松开后极短时间内的 HID down 是固件尾脉冲
+                # (实测 MIC_CLOSE 后 ~17ms 即到), 不是人的第二次按压
+                if source == "hid" and now - self._session_stop_time < HOLD_REPRESS_GUARD_S:
+                    logger.debug("[Session] 忽略松开后的固件尾脉冲 (防幽灵二次会话)")
+                    return
                 self._start_voice_session("按住 → 开始录音")
 
     def _button_up(self, source: str):
@@ -242,10 +257,18 @@ class X6SessionCoordinator:
         if self.text_delivery == "clipboard":
             from . import text_delivery
             text_delivery.hud_recording()
-        self.audio_pipe.start()
+        # 掐头修复 (2026-08-24): 旧顺序 audio_pipe.start() 同步阻塞 ~283ms
+        # (实测 53.075 HID down -> 53.358 扇出推流中), 热键与开麦都被压在后面 ——
+        # 固件晚 ~300ms 才开始采音, vokie 晚 ~300ms 才被唤起。新顺序:
+        # 唤起/开麦先行, 声卡流殿后; 开流前到达的样本在扇出缓冲排队, 开流后自动补放。
+        if self._tail_timer:
+            self._tail_timer.cancel()
+            self._tail_timer = None
+        self._tailing = False
         self.trigger_hotkey()
         if self.ble_bridge.is_connected:
             self._schedule_ble(self.ble_bridge.open_mic())
+        self.audio_pipe.start()
 
     def _stop_voice_session(self, reason: str):
         self.is_session_active = False
@@ -254,13 +277,29 @@ class X6SessionCoordinator:
         if self.text_delivery == "clipboard":
             from . import text_delivery
             text_delivery.hud_session_stopping()  # 顶掉常驻的"录音中"胶囊
-        self.commit_hotkey()
-        if self.ble_bridge.is_connected:
-            self._schedule_ble(self.ble_bridge.close_mic())
-        self.audio_pipe.stop()
-        if self.recordings_dir and self.current_session_pcm:
-            pcm = list(self.current_session_pcm)
+        # 归档快照立即取: 尾巴期间陆续到达的样本只推进扇出给 vokie, 不再入档
+        pcm = list(self.current_session_pcm)
+        self.current_session_pcm = []
+        # 掐尾修复: 收尾动作 (松右Alt/关麦/停流) 延迟 TAIL_PAD_MS,
+        # 让已解码的在途音频排空进虚拟声卡, vokie 听完整尾巴再被叫停
+        self._tailing = True
+        self._tail_timer = threading.Timer(TAIL_PAD_MS / 1000.0, self._finalize_session)
+        self._tail_timer.daemon = True
+        self._tail_timer.start()
+        if pcm and self.recordings_dir:
             threading.Thread(target=self._save_wav_archive, args=(pcm,), daemon=True).start()
+
+    def _finalize_session(self):
+        """延迟收尾到点: 真正执行松热键/关麦/停声卡流 (定时器线程中运行)。"""
+        self._tail_timer = None
+        self._tailing = False
+        try:
+            self.commit_hotkey()
+            if self.ble_bridge.is_connected:
+                self._schedule_ble(self.ble_bridge.close_mic())
+            self.audio_pipe.stop()
+        except Exception as e:
+            logger.warning(f"  ⚠️ [Session] 延迟收尾异常: {e}")
 
     def _schedule_ble(self, coro):
         """从回调线程向事件循环安全投递协程 (循环已关闭时静默丢弃)。"""
@@ -340,7 +379,7 @@ class X6SessionCoordinator:
             logger.warning(f"  ⚠️ 转写历史写入失败: {e}")
 
     def _on_pcm_received(self, samples: list):
-        if not self.is_session_active:
+        if not (self.is_session_active or self._tailing):
             return
         self._last_pulse_time = time.time()  # 持续推流中，刷新保活基准
         self.packet_counter += 1

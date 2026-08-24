@@ -16,6 +16,13 @@ added_files = [
 # 完整收集 winrt 及其所有 C-Extension pyd / DLL / 子包
 winrt_datas, winrt_binaries, winrt_hidden = collect_all('winrt')
 
+# collect_all 漏掉了 winrt/ 下的 .pyd C 扩展文件（namespace package 缺陷）
+# 显式收集所有 .pyd 文件到 winrt/ 目录
+import glob as _glob
+winrt_pyd_dir = os.path.join(sys.prefix, "Lib", "site-packages", "winrt")
+for _pyd in _glob.glob(os.path.join(winrt_pyd_dir, "*.pyd")):
+    winrt_binaries.append((_pyd, "winrt"))
+
 # 自动处理 Conda/Miniforge 环境下的 DLL (OpenBLAS, MKL, FFI 等)
 conda_lib_bin = os.path.join(sys.prefix, "Library", "bin")
 conda_binaries = []
@@ -27,6 +34,23 @@ if os.path.exists(conda_lib_bin):
             conda_binaries.append((os.path.join(conda_lib_bin, dll_name), "."))
 
 # 显式声明动态加载或 C-Extension 模块
+# PyWinRT 3.x 是 PEP420 命名空间包: 每个投影 API 是独立安装的顶层模块,
+# 静态分析对它不可靠 —— 这里按 site-packages 实际安装的轮子逐一点名兜底。
+# 轮子清单自检探针: tools/diag_winrt_packaging.py (panorama L6.frozen-env)
+winrt_projection_modules = [
+    'winrt',
+    'winrt.runtime',
+    'winrt.system',
+    'winrt.windows.foundation',
+    'winrt.windows.foundation.collections',
+    'winrt.windows.storage.streams',
+    'winrt.windows.devices.bluetooth',
+    'winrt.windows.devices.bluetooth.advertisement',
+    'winrt.windows.devices.bluetooth.genericattributeprofile',
+    'winrt.windows.devices.enumeration',
+    'winrt.windows.devices.radios',
+]
+
 hidden_imports = [
     'loguru',
     'PyQt6',
@@ -34,7 +58,7 @@ hidden_imports = [
     'PyQt6.QtGui',
     'PyQt6.QtWidgets',
     'numpy',
-] + winrt_hidden + collect_submodules('winrt')
+] + winrt_hidden + collect_submodules('winrt') + winrt_projection_modules
 
 all_datas = added_files + winrt_datas
 all_binaries = winrt_binaries + conda_binaries

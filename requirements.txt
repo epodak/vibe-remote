@@ -8,8 +8,13 @@ numpy>=1.24.0
 loguru>=0.7.0
 
 # Windows BLE & WinRT Runtime (Windows 10/11)
+# 注意: 每个 winrt-Windows.* 轮子是独立安装单元, 缺一个 = frozen 运行时 ModuleNotFoundError
 winrt-runtime>=2.0.0
 winrt-Windows.Foundation>=2.0.0
+winrt-Windows.Foundation.Collections>=2.0.0
 winrt-Windows.Storage.Streams>=2.0.0
 winrt-Windows.Devices.Bluetooth>=2.0.0
+winrt-Windows.Devices.Bluetooth.Advertisement>=2.0.0
+winrt-Windows.Devices.Bluetooth.GenericAttributeProfile>=2.0.0
 winrt-Windows.Devices.Enumeration>=2.0.0
+winrt-Windows.Devices.Radios>=2.0.0
