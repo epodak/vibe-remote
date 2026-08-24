@@ -67,10 +67,11 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest
-          name: "vibe-remote Latest Build (Continuous)"
+          tag_name: v1.0.0
+          name: "vibe-remote v1.0.0 (Windows Official Release)"
+          make_latest: true
           body: |
-            ## 🚀 vibe-remote 自动构建最新发布 (Continuous Build)
+            ## 🚀 vibe-remote Windows 官方发布 (v1.0.0)
             
             欢迎使用 vibe-remote Windows 客户端！请根据需求选择下载：
             
@@ -84,7 +85,7 @@ jobs:
             *构建时间: ${{ github.event.head_commit.timestamp }}*  
             *关联提交: ${{ github.sha }}*
           draft: false
-          prerelease: true
+          prerelease: false
           files: |
             dist/installer/vibe-remote-Setup-x64.exe
             dist/vibe-remote-windows-x64-portable.zip
